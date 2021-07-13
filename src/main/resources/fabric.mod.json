@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "snowballkb",
+  "version": "${version}",
+  "name": "SnowballKnockback",
+  "description": "Allows snowballs and eggs to do knockbck",
+  "authors": [
+    "capitalistspz"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+    ]
+  },
+  "mixins": [
+    "skb.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "minecraft": ">=1.17"
+  }
+}
