@@ -1,6 +1,6 @@
 package capitalistspz.test.mixin;
 
-import capitalistspz.test.commands.Commands;
+import capitalistspz.test.SnowballKB;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -27,11 +27,11 @@ public abstract class SnowballEntityMxn extends ThrownItemEntity {
     )
     protected void onHitPlayer(EntityHitResult entityHitResult, CallbackInfo ci, Entity entity) {
 
-        if (entity instanceof PlayerEntity) // Hopefully deliver knockback to player
+        if (entity instanceof PlayerEntity && !((PlayerEntity) entity).abilities.invulnerable) // Hopefully deliver knockback to player
         {
-            entity.setVelocity(entity.getVelocity().add(this.getVelocity().normalize().multiply(Commands.snowKbMultiplier)));
+            entity.setVelocity(entity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.snowKbMultiplier)));
             entity.velocityModified = true;
-            entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), 0.001f);
+            entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), SnowballKB.config.snowDamage);
         }
 
     }

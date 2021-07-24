@@ -1,6 +1,6 @@
 package capitalistspz.test.mixin;
 
-import capitalistspz.test.commands.Commands;
+import capitalistspz.test.SnowballKB;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
 
 @Mixin(EggEntity.class)
 public abstract class EggEntityMxn extends ThrownItemEntity {
@@ -26,11 +26,11 @@ public abstract class EggEntityMxn extends ThrownItemEntity {
     )
     protected void onHitPlayer(EntityHitResult entityHitResult, CallbackInfo ci) {
         Entity entity = entityHitResult.getEntity();
-        if (entity instanceof PlayerEntity) // Hopefully deliver knockback to player
+        if (entity instanceof PlayerEntity && !((PlayerEntity) entity).abilities.invulnerable) // Hopefully deliver knockback to player
         {
-            entity.setVelocity(entity.getVelocity().add(this.getVelocity().normalize().multiply(Commands.eggKbMultiplier)));
+            entity.setVelocity(entity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.eggKbMultiplier)));
             entity.velocityModified = true;
-            entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), Commands.eggDamage);
+            entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), SnowballKB.config.eggDamage);
         }
 
     }
