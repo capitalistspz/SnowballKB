@@ -12,11 +12,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
+      "capitalistspz.test.SnowballKB"
     ]
   },
   "mixins": [
     "skb.mixins.json"
   ],
+  "accessWidener" : "snowballkb.accesswidener",
   "depends": {
     "fabricloader": ">=0.11.6",
     "minecraft": ">=1.17"

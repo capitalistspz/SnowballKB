@@ -6,6 +6,8 @@
   "mixins": [
     "CommandManagerMxn",
     "EggEntityMxn",
+    "FishingBobberMxn",
+    "MinecraftServerMxn",
     "SnowballEntityMxn"
   ],
   "client": [

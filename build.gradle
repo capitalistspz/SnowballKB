@@ -28,6 +28,9 @@ processResources {
     }
 
 }
+minecraft {
+    accessWidener =  file("src/main/resources/snowballkb.accesswidener")
+}
 
 // ensure that the encoding is set to UTF-8, no matter what the system default is
 // this fixes some edge cases with special characters not displaying correctly
