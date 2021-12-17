@@ -3,11 +3,13 @@ package capitalistspz.test.config;
 import capitalistspz.test.SnowballKB;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.netty.handler.logging.LogLevel;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
 
 public class Config{
     public float snowKbMultiplier = 0.0f;
@@ -16,15 +18,21 @@ public class Config{
     public float eggDamage = 0.001f;
     public float fishingRodPullMultiplier = 0.1f;
 
-    private static final File configFile = new File("config/snowballkb.json");
+    private static final File configFile = new File("config" + File.separator + "snowballkb.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 
-    public static void save(Config config) {
+    public static boolean save(Config config) {
         try {
+            if (!configFile.getParentFile().exists())
+                configFile.getParentFile().mkdirs();
             FileWriter fw = new FileWriter(configFile);
-            fw.append(gson.toJson(config));
+            fw.write(gson.toJson(config));
             fw.close();
-        } catch(Exception ignored){ }
+            return true;
+        } catch(Exception e){
+            SnowballKB.logger.log(Level.WARN, "Failed to save config. {}", e.getMessage());
+            return false;
+        }
 
     }
     public static Config load() {
@@ -36,7 +44,7 @@ public class Config{
             return config;
 
         } catch(Exception e) {
-            SnowballKB.logger.log(Level.WARN, "Failed to load config, using default values.");
+            SnowballKB.logger.log(Level.WARN, "Failed to load config, using default values: {}", e.getMessage());
         }
         return new Config();
     }
