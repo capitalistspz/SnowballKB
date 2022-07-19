@@ -5,17 +5,19 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import static net.minecraft.server.command.CommandManager.*;
 
 public class Commands {
-    public static String kbSetFeedback = "The knockback multiplier has been set to: ";
-    public static String kbGetFeedback = "The knockback multiplier is : ";
-    public static String dmgSetFeedback = "The damage multiplier has been set to: ";
-    public static String dmgGetFeedback = "The damage multiplier is : ";
-    public static String pullSetFeedback = "The pull multiplier has been set to: ";
+    public static String kbSetFeedback = "The knockback multiplier has been set to %s";
+    public static String kbGetFeedback = "The knockback multiplier is set to %s";
+    public static String dmgSetFeedback = "The damage multiplier has been set to %s";
+    public static String dmgGetFeedback = "The damage multiplier is set to %s";
+    public static String pullSetFeedback = "The pull multiplier has been set to %s";
+    public static String pullGetFeedback = "The pull multiplier is set to %s";
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher){
         // Argbuilder init
@@ -27,7 +29,7 @@ public class Commands {
                         .then(argument("mult", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
                                     SnowballKB.config.snowKbMultiplier = FloatArgumentType.getFloat(cmd, "mult");
-                                    cmd.getSource().sendFeedback(new LiteralText(kbSetFeedback + SnowballKB.config.snowKbMultiplier), false);
+                                    SendValueFeedback(cmd, kbSetFeedback, SnowballKB.config.snowKbMultiplier);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
@@ -35,7 +37,7 @@ public class Commands {
                 // Gets the current global knockback multiplier
                 .then(literal("get")
                         .executes(cmd -> {
-                            cmd.getSource().sendFeedback(new LiteralText(kbGetFeedback + SnowballKB.config.snowKbMultiplier), false);
+                            SendValueFeedback(cmd, kbGetFeedback, SnowballKB.config.snowKbMultiplier);
                             return (int)(SnowballKB.config.snowKbMultiplier * 1000);
                         })
                 )
@@ -44,7 +46,7 @@ public class Commands {
                         .then(argument("added_mult", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
                                     SnowballKB.config.snowKbMultiplier += FloatArgumentType.getFloat(cmd, "added_mult");
-                                    cmd.getSource().sendFeedback(new LiteralText(kbSetFeedback + SnowballKB.config.snowKbMultiplier), false);
+                                    SendValueFeedback(cmd, kbSetFeedback, SnowballKB.config.snowKbMultiplier);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
@@ -55,7 +57,7 @@ public class Commands {
                         .then(argument("damage", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
                                     SnowballKB.config.snowDamage = FloatArgumentType.getFloat(cmd, "damage");
-                                    cmd.getSource().sendFeedback(new LiteralText(dmgSetFeedback + SnowballKB.config.snowDamage), false);
+                                    SendValueFeedback(cmd, dmgSetFeedback, SnowballKB.config.snowDamage);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
@@ -63,7 +65,7 @@ public class Commands {
                 // Gets the current global knockback multiplier
                 .then(literal("get")
                         .executes(cmd -> {
-                            cmd.getSource().sendFeedback(new LiteralText(dmgGetFeedback + SnowballKB.config.snowDamage), false);
+                            SendValueFeedback(cmd, dmgGetFeedback, SnowballKB.config.snowDamage);
                             return (int)(SnowballKB.config.snowDamage * 1000);
                         })
                 )
@@ -72,7 +74,7 @@ public class Commands {
                         .then(argument("damage", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
                                     SnowballKB.config.snowDamage += FloatArgumentType.getFloat(cmd, "damage");
-                                    cmd.getSource().sendFeedback(new LiteralText(dmgSetFeedback + SnowballKB.config.snowDamage), false);
+                                    SendValueFeedback(cmd, dmgSetFeedback, SnowballKB.config.snowDamage);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
@@ -88,7 +90,7 @@ public class Commands {
                         .then(argument("mult", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
                                     SnowballKB.config.eggKbMultiplier = FloatArgumentType.getFloat(cmd, "mult");
-                                    cmd.getSource().sendFeedback(new LiteralText(kbSetFeedback + SnowballKB.config.eggKbMultiplier), false);
+                                    SendValueFeedback(cmd, kbSetFeedback, SnowballKB.config.eggKbMultiplier);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
@@ -96,7 +98,7 @@ public class Commands {
                 // Gets the current global knockback multiplier
                 .then(literal("get")
                         .executes(cmd -> {
-                            cmd.getSource().sendFeedback(new LiteralText(kbGetFeedback + SnowballKB.config.eggKbMultiplier), false);
+                            SendValueFeedback(cmd, kbGetFeedback, SnowballKB.config.eggKbMultiplier);
                             return (int)(SnowballKB.config.eggKbMultiplier * 1000);
                         })
                 )
@@ -105,7 +107,7 @@ public class Commands {
                         .then(argument("added_mult", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
                                     SnowballKB.config.eggKbMultiplier += FloatArgumentType.getFloat(cmd, "added_mult");
-                                    cmd.getSource().sendFeedback(new LiteralText(kbSetFeedback + SnowballKB.config.eggKbMultiplier), false);
+                                    SendValueFeedback(cmd, kbSetFeedback, SnowballKB.config.eggKbMultiplier);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
@@ -116,7 +118,7 @@ public class Commands {
                                 .then(argument("damage", FloatArgumentType.floatArg())
                                         .executes(cmd -> {
                                             SnowballKB.config.eggDamage = FloatArgumentType.getFloat(cmd, "damage");
-                                            cmd.getSource().sendFeedback(new LiteralText(dmgSetFeedback + SnowballKB.config.eggDamage), false);
+                                            SendValueFeedback(cmd, dmgSetFeedback, SnowballKB.config.eggDamage);
                                             return Command.SINGLE_SUCCESS;
                                         })
                                 )
@@ -124,7 +126,7 @@ public class Commands {
                         // Gets the current global knockback multiplier
                         .then(literal("get")
                                 .executes(cmd -> {
-                                    cmd.getSource().sendFeedback(new LiteralText(dmgGetFeedback + SnowballKB.config.eggDamage), false);
+                                    SendValueFeedback(cmd, dmgGetFeedback, SnowballKB.config.eggDamage);
                                     return (int)(SnowballKB.config.eggDamage * 1000);
                                 })
                         )
@@ -133,7 +135,7 @@ public class Commands {
                                 .then(argument("damage", FloatArgumentType.floatArg())
                                         .executes(cmd -> {
                                             SnowballKB.config.eggDamage += FloatArgumentType.getFloat(cmd, "damage");
-                                            cmd.getSource().sendFeedback(new LiteralText(dmgSetFeedback + SnowballKB.config.eggDamage), false);
+                                            SendValueFeedback(cmd, dmgSetFeedback, SnowballKB.config.eggDamage);
                                             return Command.SINGLE_SUCCESS;
                                         })
                                 )
@@ -145,13 +147,23 @@ public class Commands {
 
         bobber.then(literal("set").then(argument("value", FloatArgumentType.floatArg()).executes(cmd -> {
             SnowballKB.config.fishingRodPullMultiplier = FloatArgumentType.getFloat(cmd, "value");
-            cmd.getSource().sendFeedback(new LiteralText(pullSetFeedback + SnowballKB.config.fishingRodPullMultiplier), true);
+            SendValueFeedback(cmd, pullSetFeedback, SnowballKB.config.fishingRodPullMultiplier);
             return Command.SINGLE_SUCCESS;
-        }))).then(literal("add").then(argument("value", FloatArgumentType.floatArg()).executes(cmd -> {
+        }
+        ))).then(literal("add").then(argument("value", FloatArgumentType.floatArg()).executes(cmd -> {
             SnowballKB.config.fishingRodPullMultiplier += FloatArgumentType.getFloat(cmd, "value");
-            cmd.getSource().sendFeedback(new LiteralText(pullSetFeedback + SnowballKB.config.fishingRodPullMultiplier), true);
+            SendValueFeedback(cmd, pullSetFeedback, SnowballKB.config.fishingRodPullMultiplier);
             return Command.SINGLE_SUCCESS;
-        }))).then(literal("get").executes(cmd -> (int)(SnowballKB.config.fishingRodPullMultiplier * 1000)));
+        }
+        ))).then(literal("get").executes(cmd -> {
+            SendValueFeedback(cmd, pullGetFeedback, SnowballKB.config.fishingRodPullMultiplier);
+            return (int)(SnowballKB.config.fishingRodPullMultiplier * 1000);
+        }
+        ));
         dispatcher.register(bobber);
+    }
+
+    private static void SendValueFeedback(CommandContext<ServerCommandSource> cmd, String message, float value){
+        cmd.getSource().sendFeedback(Text.literal(String.format(message, value)), false);
     }
 }

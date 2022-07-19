@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "snowballkb",
   "version": "${version}",
-  "name": "SnowballKnockback",
+  "name": "Snowball Knockback",
   "description": "Allows snowballs and eggs to do knockbck",
   "authors": [
     "capitalistspz"
@@ -20,7 +20,7 @@
   ],
   "accessWidener" : "snowballkb.accesswidener",
   "depends": {
-    "fabricloader": ">=0.12.12",
-    "minecraft": ">=1.18.1"
+    "fabricloader": ">=0.14.8",
+    "minecraft": ">=1.19"
   }
 }
