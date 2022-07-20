@@ -3,6 +3,7 @@ package capitalistspz.test.commands;
 import capitalistspz.test.SnowballKB;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -38,8 +39,13 @@ public class Commands {
                 .then(literal("get")
                         .executes(cmd -> {
                             SendValueFeedback(cmd, kbGetFeedback, SnowballKB.config.snowKbMultiplier);
-                            return (int)(SnowballKB.config.snowKbMultiplier * 1000);
-                        })
+                            return (int)SnowballKB.config.snowKbMultiplier;
+                        }).then(argument("scale", DoubleArgumentType.doubleArg())
+                                .executes(cmd -> {
+                                    double scaledValue = DoubleArgumentType.getDouble(cmd, "scale") * SnowballKB.config.snowKbMultiplier;
+                                    SendValueFeedback(cmd, kbGetFeedback, scaledValue);
+                                    return (int) scaledValue;
+                                }))
                 )
                 // Adds a value onto the current multiplier
                 .then(literal("add")
@@ -62,14 +68,19 @@ public class Commands {
                                 })
                         )
                 )
-                // Gets the current global knockback multiplier
+                // Gets the current global damage amount
                 .then(literal("get")
                         .executes(cmd -> {
                             SendValueFeedback(cmd, dmgGetFeedback, SnowballKB.config.snowDamage);
-                            return (int)(SnowballKB.config.snowDamage * 1000);
-                        })
+                            return (int)SnowballKB.config.snowDamage;
+                        }).then(argument("scale", DoubleArgumentType.doubleArg())
+                                .executes(cmd -> {
+                                    double scaledValue = DoubleArgumentType.getDouble(cmd, "scale") * SnowballKB.config.snowDamage;
+                                    SendValueFeedback(cmd, dmgGetFeedback, scaledValue);
+                                    return (int) scaledValue;
+                                }))
                 )
-                // Adds a value onto the current multiplier
+                // Adds a value onto the current amount
                 .then(literal("add")
                         .then(argument("damage", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
@@ -99,8 +110,13 @@ public class Commands {
                 .then(literal("get")
                         .executes(cmd -> {
                             SendValueFeedback(cmd, kbGetFeedback, SnowballKB.config.eggKbMultiplier);
-                            return (int)(SnowballKB.config.eggKbMultiplier * 1000);
-                        })
+                            return (int)SnowballKB.config.eggKbMultiplier;
+                        }).then(argument("scale", DoubleArgumentType.doubleArg())
+                                .executes(cmd -> {
+                                    double scaledValue = DoubleArgumentType.getDouble(cmd, "scale") * SnowballKB.config.eggKbMultiplier;
+                                    SendValueFeedback(cmd, kbGetFeedback, scaledValue);
+                                    return (int) scaledValue;
+                                }))
                 )
                 // Adds a value onto the current multiplier
                 .then(literal("add")
@@ -123,14 +139,19 @@ public class Commands {
                                         })
                                 )
                         )
-                        // Gets the current global knockback multiplier
+                        // Gets the current global damage amount
                         .then(literal("get")
                                 .executes(cmd -> {
                                     SendValueFeedback(cmd, dmgGetFeedback, SnowballKB.config.eggDamage);
-                                    return (int)(SnowballKB.config.eggDamage * 1000);
-                                })
+                                    return (int) SnowballKB.config.eggDamage;
+                                }).then(argument("scale", DoubleArgumentType.doubleArg())
+                                        .executes(cmd ->  {
+                                            double scaledValue = DoubleArgumentType.getDouble(cmd, "scale") * SnowballKB.config.eggDamage;
+                                            SendValueFeedback(cmd, dmgGetFeedback, scaledValue);
+                                            return (int) scaledValue;
+                                        }))
                         )
-                        // Adds a value onto the current multiplier
+                        // Adds a value onto the current amount
                         .then(literal("add")
                                 .then(argument("damage", FloatArgumentType.floatArg())
                                         .executes(cmd -> {
@@ -157,13 +178,18 @@ public class Commands {
         }
         ))).then(literal("get").executes(cmd -> {
             SendValueFeedback(cmd, pullGetFeedback, SnowballKB.config.fishingRodPullMultiplier);
-            return (int)(SnowballKB.config.fishingRodPullMultiplier * 1000);
-        }
-        ));
+            return (int) SnowballKB.config.fishingRodPullMultiplier;
+        }).then(argument("scale", DoubleArgumentType.doubleArg())
+                .executes(cmd -> {
+                    double scaledValue = DoubleArgumentType.getDouble(cmd, "scale") * SnowballKB.config.fishingRodPullMultiplier;
+                    SendValueFeedback(cmd, pullGetFeedback, scaledValue);
+                    return (int) scaledValue;
+                }))
+        );
         dispatcher.register(bobber);
     }
 
-    private static void SendValueFeedback(CommandContext<ServerCommandSource> cmd, String message, float value){
+    private static void SendValueFeedback(CommandContext<ServerCommandSource> cmd, String message, double value){
         cmd.getSource().sendFeedback(Text.literal(String.format(message, value)), false);
     }
 }
