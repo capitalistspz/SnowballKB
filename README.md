@@ -1,2 +1,2 @@
-# SnowballKB
-If compiling on your own, change the parameter of `org.gradle.java.home` in `gradle.properties` to your own java folder
+# Snowball and Egg Knockback
+A minecraft mod that allows the adjustment of snowball and egg knockback and damage, as well as adjust the 
