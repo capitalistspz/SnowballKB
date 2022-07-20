@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MinecraftServerMxn {
     @Inject(method="save",at=@At("TAIL"))
     public void saveConfig(boolean suppressLogs, boolean flush, boolean force, CallbackInfoReturnable<Boolean> cir){
-        if (!suppressLogs && Config.save(SnowballKB.config)){
+        if (Config.save(SnowballKB.config) && !suppressLogs){
             SnowballKB.logger.log(Level.INFO, "Config saved.");
         }
     }
