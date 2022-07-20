@@ -13,12 +13,12 @@ import net.minecraft.text.Text;
 import static net.minecraft.server.command.CommandManager.*;
 
 public class Commands {
-    public static String kbSetFeedback = "The knockback multiplier has been set to %s";
-    public static String kbGetFeedback = "The knockback multiplier is set to %s";
-    public static String dmgSetFeedback = "The damage multiplier has been set to %s";
-    public static String dmgGetFeedback = "The damage multiplier is set to %s";
-    public static String pullSetFeedback = "The pull multiplier has been set to %s";
-    public static String pullGetFeedback = "The pull multiplier is set to %s";
+    public static String kbSetFeedback = "Set knockback multiplier to %s";
+    public static String kbGetFeedback = "Knockback multiplier is %s";
+    public static String dmgSetFeedback = "Set damage to %s";
+    public static String dmgGetFeedback = "Damage is %s";
+    public static String pullSetFeedback = "Set pull multiplier to %s";
+    public static String pullGetFeedback = "Pull multiplier is %s";
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher){
         // Argbuilder init
