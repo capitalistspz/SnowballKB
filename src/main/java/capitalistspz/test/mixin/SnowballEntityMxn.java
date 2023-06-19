@@ -3,7 +3,6 @@ package capitalistspz.test.mixin;
 import capitalistspz.test.SnowballKB;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -31,8 +30,10 @@ public abstract class SnowballEntityMxn extends ThrownItemEntity {
         {
             entity.setVelocity(entity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.snowKbMultiplier)));
             entity.velocityModified = true;
-            entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), SnowballKB.config.snowDamage);
+
+            entity.damage(this.getDamageSources().thrown(this, this.getOwner()), SnowballKB.config.snowDamage);
         }
 
     }
+
 }

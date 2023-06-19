@@ -190,6 +190,6 @@ public class Commands {
     }
 
     private static void SendValueFeedback(CommandContext<ServerCommandSource> cmd, String message, double value){
-        cmd.getSource().sendFeedback(Text.literal(String.format(message, value)), false);
+        cmd.getSource().sendFeedback(() -> Text.literal(String.format(message, value)), false);
     }
 }
