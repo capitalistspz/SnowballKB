@@ -6,8 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SnowballKB implements ModInitializer {
-    public static Config config;
+    public static Config config = new Config();
     public static Logger logger = LogManager.getLogger();
+    public static final float DegToRad = (float)Math.PI / 180;
+
     @Override
     public void onInitialize() {
         config = Config.load();

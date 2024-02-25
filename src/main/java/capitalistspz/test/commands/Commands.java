@@ -3,6 +3,7 @@ package capitalistspz.test.commands;
 import capitalistspz.test.SnowballKB;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -91,6 +92,27 @@ public class Commands {
                         )
                 )
         );
+        knockbackCommand.then(literal("traditional")
+                .then(literal("set")
+                        .then(argument("enable", BoolArgumentType.bool())
+                                .executes(cmd ->  {
+                                    var enable = BoolArgumentType.getBool(cmd, "enable");
+                                    if (enable){
+                                        cmd.getSource().sendFeedback(() -> Text.literal("Enabled traditional knockback for snowballs"), false);
+                                    }
+                                    else {
+                                        cmd.getSource().sendFeedback(() -> Text.literal("Disabled traditional knockback for snowballs"), false);
+                                    }
+                                    SnowballKB.config.snowTraditionalKb = enable;
+                                    return Command.SINGLE_SUCCESS;
+                                })))
+                .then(literal("get")
+                        .executes(cmd -> {
+                            cmd.getSource().sendFeedback(() -> Text.literal("Traditional knockback for snowballs is " + (SnowballKB.config.snowTraditionalKb ? "enabled" : "disabled")), false);
+                            return SnowballKB.config.snowTraditionalKb ? 1 : 0;
+                        }))
+        );
+
         dispatcher.register(knockbackCommand);
 
         LiteralArgumentBuilder<ServerCommandSource> eggKnockbackCommand = literal("eggkb")
@@ -162,6 +184,26 @@ public class Commands {
                                 )
                         )
                 );
+        eggKnockbackCommand.then(literal("traditional")
+                .then(literal("set")
+                        .then(argument("enable", BoolArgumentType.bool())
+                                .executes(cmd ->  {
+                                    var enable = BoolArgumentType.getBool(cmd, "enable");
+                                    if (enable){
+                                        cmd.getSource().sendFeedback(() -> Text.literal("Enabled traditional knockback for eggs"), false);
+                                    }
+                                    else {
+                                        cmd.getSource().sendFeedback(() -> Text.literal("Disabled traditional knockback for eggs"), false);
+                                    }
+                                    SnowballKB.config.eggTraditionalKb = enable;
+                                    return Command.SINGLE_SUCCESS;
+                                })))
+                .then(literal("get")
+                        .executes(cmd -> {
+                            cmd.getSource().sendFeedback(() -> Text.literal("Traditional knockback for eggs is " + (SnowballKB.config.eggTraditionalKb ? "enabled" : "disabled")), false);
+                            return SnowballKB.config.eggTraditionalKb ? 1 : 0;
+                        }))
+        );
         dispatcher.register(eggKnockbackCommand);
         
         LiteralArgumentBuilder<ServerCommandSource> bobber = literal("bobberpull").requires(executor -> executor.hasPermissionLevel(2));

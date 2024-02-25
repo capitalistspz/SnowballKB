@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EggEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,10 +26,16 @@ public abstract class EggEntityMxn extends ThrownItemEntity {
     )
     protected void onHitPlayer(EntityHitResult entityHitResult, CallbackInfo ci) {
         Entity entity = entityHitResult.getEntity();
-        if (entity instanceof PlayerEntity && !((PlayerEntity) entity).getAbilities().invulnerable)
+        if (entity instanceof PlayerEntity player && !player.getAbilities().invulnerable)
         {
-            entity.setVelocity(entity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.eggKbMultiplier)));
-            entity.velocityModified = true;
+            if (SnowballKB.config.eggTraditionalKb){
+                var yaw = -this.getBodyYaw();
+                player.takeKnockback(SnowballKB.config.eggKbMultiplier, MathHelper.sin(yaw * SnowballKB.DegToRad), -MathHelper.cos(yaw * SnowballKB.DegToRad));
+            }
+            else {
+                player.setVelocity(player.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.eggKbMultiplier)));
+                player.velocityModified = true;
+            }
             entity.damage(this.getDamageSources().thrown(this, this.getOwner()), SnowballKB.config.eggDamage);
         }
 
