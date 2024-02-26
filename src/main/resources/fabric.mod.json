@@ -3,7 +3,7 @@
   "id": "snowballkb",
   "version": "${version}",
   "name": "Snowball and Egg Knockback",
-  "description": "Allows snowballs and eggs to do knockbck",
+  "description": "Allows snowballs and eggs to do knockback",
   "authors": [
     "capitalistspz"
   ],
