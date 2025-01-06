@@ -3,6 +3,7 @@ package capitalistspz.test.config;
 import capitalistspz.test.SnowballKB;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Strictness;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -20,7 +21,7 @@ public class Config{
     public float fishingRodPullMultiplier = 0.1f;
 
     private static final File configFile = new File("config" + File.separator + "snowballkb.json");
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().setStrictness(Strictness.LENIENT).create();
 
     public static boolean save(Config config) {
         try {
