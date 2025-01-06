@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EggEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -36,7 +37,11 @@ public abstract class EggEntityMxn extends ThrownItemEntity {
                 player.setVelocity(player.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.eggKbMultiplier)));
                 player.velocityModified = true;
             }
-            entity.damage(this.getDamageSources().thrown(this, this.getOwner()), SnowballKB.config.eggDamage);
+
+            if (entity.getWorld() instanceof ServerWorld world) {
+                entity.damage(world, this.getDamageSources().thrown(this, this.getOwner()),
+                        SnowballKB.config.eggDamage);
+            }
         }
 
     }
