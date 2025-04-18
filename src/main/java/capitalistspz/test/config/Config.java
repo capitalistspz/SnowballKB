@@ -42,9 +42,15 @@ public class Config{
             FileReader fr = new FileReader(configFile);
             Config config = gson.fromJson(fr, Config.class);
             fr.close();
+
+            // gson.fromJson() can return null if file is empty
+            if(config == null) {
+                SnowballKB.logger.log(Level.WARN, "Failed to load empty config, using default values.");
+                return new Config();
+            }
+
             SnowballKB.logger.log(Level.INFO, "Config loaded.");
             return config;
-
         } catch(Exception e) {
             SnowballKB.logger.log(Level.WARN, "Failed to load config, using default values: {}", e.getMessage());
         }
