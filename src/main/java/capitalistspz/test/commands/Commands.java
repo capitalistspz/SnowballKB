@@ -23,10 +23,10 @@ public class Commands {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher){
         // Argbuilder init
-        LiteralArgumentBuilder<ServerCommandSource> knockbackCommand = literal("snowkb")
+        LiteralArgumentBuilder<ServerCommandSource> snowKbCommand = literal("snowkb")
                 .requires(executor -> executor.hasPermissionLevel(2));
 
-        knockbackCommand.then(literal("knockback")
+        snowKbCommand.then(literal("knockback")
                 .then(literal("set")
                         .then(argument("mult", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
@@ -92,7 +92,7 @@ public class Commands {
                         )
                 )
         );
-        knockbackCommand.then(literal("traditional")
+        snowKbCommand.then(literal("traditional")
                 .then(literal("set")
                         .then(argument("enable", BoolArgumentType.bool())
                                 .executes(cmd ->  {
@@ -113,12 +113,12 @@ public class Commands {
                         }))
         );
 
-        dispatcher.register(knockbackCommand);
+        dispatcher.register(snowKbCommand);
 
-        LiteralArgumentBuilder<ServerCommandSource> eggKnockbackCommand = literal("eggkb")
+        LiteralArgumentBuilder<ServerCommandSource> eggKbCommand = literal("eggkb")
                 .requires(executor -> executor.hasPermissionLevel(2));
 
-        eggKnockbackCommand.then(literal("knockback")
+        eggKbCommand.then(literal("knockback")
                 .then(literal("set")
                         .then(argument("mult", FloatArgumentType.floatArg())
                                 .executes(cmd -> {
@@ -184,7 +184,7 @@ public class Commands {
                                 )
                         )
                 );
-        eggKnockbackCommand.then(literal("traditional")
+        eggKbCommand.then(literal("traditional")
                 .then(literal("set")
                         .then(argument("enable", BoolArgumentType.bool())
                                 .executes(cmd ->  {
@@ -204,8 +204,101 @@ public class Commands {
                             return SnowballKB.config.eggTraditionalKb ? 1 : 0;
                         }))
         );
-        dispatcher.register(eggKnockbackCommand);
-        
+        dispatcher.register(eggKbCommand);
+
+        LiteralArgumentBuilder<ServerCommandSource> pearlKbCommand = literal("pearlkb")
+                .requires(executor -> executor.hasPermissionLevel(2));
+
+        pearlKbCommand.then(literal("knockback")
+                        .then(literal("set")
+                                .then(argument("mult", FloatArgumentType.floatArg())
+                                        .executes(cmd -> {
+                                            SnowballKB.config.pearlKbMultiplier = FloatArgumentType.getFloat(cmd, "mult");
+                                            SendValueFeedback(cmd, kbSetFeedback, SnowballKB.config.pearlKbMultiplier);
+                                            return Command.SINGLE_SUCCESS;
+                                        })
+                                )
+                        )
+                        // Gets the current global knockback multiplier
+                        .then(literal("get")
+                                .executes(cmd -> {
+                                    SendValueFeedback(cmd, kbGetFeedback, SnowballKB.config.pearlKbMultiplier);
+                                    return (int)SnowballKB.config.pearlKbMultiplier;
+                                }).then(argument("scale", DoubleArgumentType.doubleArg())
+                                        .executes(cmd -> {
+                                            double scaledValue = DoubleArgumentType.getDouble(cmd, "scale") * SnowballKB.config.pearlKbMultiplier;
+                                            SendValueFeedback(cmd, kbGetFeedback, scaledValue);
+                                            return (int) scaledValue;
+                                        }))
+                        )
+                        // Adds a value onto the current multiplier
+                        .then(literal("add")
+                                .then(argument("added_mult", FloatArgumentType.floatArg())
+                                        .executes(cmd -> {
+                                            SnowballKB.config.pearlKbMultiplier += FloatArgumentType.getFloat(cmd, "added_mult");
+                                            SendValueFeedback(cmd, kbSetFeedback, SnowballKB.config.pearlKbMultiplier);
+                                            return Command.SINGLE_SUCCESS;
+                                        })
+                                )
+                        )
+                )
+                .then(literal("damage")
+                        .then(literal("set")
+                                .then(argument("damage", FloatArgumentType.floatArg())
+                                        .executes(cmd -> {
+                                            SnowballKB.config.pearlDamage = FloatArgumentType.getFloat(cmd, "damage");
+                                            SendValueFeedback(cmd, dmgSetFeedback, SnowballKB.config.pearlDamage);
+                                            return Command.SINGLE_SUCCESS;
+                                        })
+                                )
+                        )
+                        // Gets the current global damage amount
+                        .then(literal("get")
+                                .executes(cmd -> {
+                                    SendValueFeedback(cmd, dmgGetFeedback, SnowballKB.config.pearlDamage);
+                                    return (int)SnowballKB.config.pearlDamage;
+                                }).then(argument("scale", DoubleArgumentType.doubleArg())
+                                        .executes(cmd -> {
+                                            double scaledValue = DoubleArgumentType.getDouble(cmd, "scale") * SnowballKB.config.pearlDamage;
+                                            SendValueFeedback(cmd, dmgGetFeedback, scaledValue);
+                                            return (int) scaledValue;
+                                        }))
+                        )
+                        // Adds a value onto the current amount
+                        .then(literal("add")
+                                .then(argument("damage", FloatArgumentType.floatArg())
+                                        .executes(cmd -> {
+                                            SnowballKB.config.pearlDamage += FloatArgumentType.getFloat(cmd, "damage");
+                                            SendValueFeedback(cmd, dmgSetFeedback, SnowballKB.config.pearlDamage);
+                                            return Command.SINGLE_SUCCESS;
+                                        })
+                                )
+                        )
+                );
+        pearlKbCommand.then(literal("traditional")
+                .then(literal("set")
+                        .then(argument("enable", BoolArgumentType.bool())
+                                .executes(cmd ->  {
+                                    var enable = BoolArgumentType.getBool(cmd, "enable");
+                                    if (enable){
+                                        cmd.getSource().sendFeedback(() -> Text.literal("Enabled traditional knockback for ender pearls"), false);
+                                    }
+                                    else {
+                                        cmd.getSource().sendFeedback(() -> Text.literal("Disabled traditional knockback for ender pearls"), false);
+                                    }
+                                    SnowballKB.config.pearlTraditionalKb = enable;
+                                    return Command.SINGLE_SUCCESS;
+                                })))
+                .then(literal("get")
+                        .executes(cmd -> {
+                            cmd.getSource().sendFeedback(() -> Text.literal("Traditional knockback for ender pearls is " + (SnowballKB.config.pearlTraditionalKb ? "enabled" : "disabled")), false);
+                            return SnowballKB.config.pearlTraditionalKb ? 1 : 0;
+                        }))
+        );
+
+        dispatcher.register(pearlKbCommand);
+
+
         LiteralArgumentBuilder<ServerCommandSource> bobber = literal("bobberpull").requires(executor -> executor.hasPermissionLevel(2));
 
         bobber.then(literal("set").then(argument("value", FloatArgumentType.floatArg()).executes(cmd -> {
