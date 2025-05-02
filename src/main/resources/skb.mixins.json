@@ -6,6 +6,7 @@
   "mixins": [
     "CommandManagerMxn",
     "EggEntityMxn",
+    "EnderPearlEntityMxn",
     "FishingBobberMxn",
     "MinecraftServerMxn",
     "SnowballEntityMxn"
