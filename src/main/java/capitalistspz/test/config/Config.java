@@ -17,6 +17,9 @@ public class Config{
     public float eggKbMultiplier = 0.0f;
     public float eggDamage = 0.001f;
     public boolean eggTraditionalKb = true;
+    public float pearlKbMultiplier = 0.0f;
+    public float pearlDamage = 0.001f;
+    public boolean pearlTraditionalKb = true;
 
     public float fishingRodPullMultiplier = 0.1f;
 
