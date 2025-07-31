@@ -5,8 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.util.math.MathHelper;
@@ -25,19 +25,22 @@ public abstract class EnderPearlEntityMxn extends ThrownItemEntity {
             method = "onEntityHit"
     )
     protected void onHitPlayer(Entity entity, DamageSource source, float amount, Operation<Void> original) {
-        if (entity instanceof PlayerEntity player && !player.getAbilities().invulnerable)
+        if (SnowballKB.appliesToEntity(entity))
         {
+            var livingEntity = (LivingEntity)entity;
             if (SnowballKB.config.pearlTraditionalKb){
                 var yaw = -this.getBodyYaw();
-                player.takeKnockback(SnowballKB.config.pearlKbMultiplier, MathHelper.sin(yaw * SnowballKB.DegToRad), -MathHelper.cos(yaw * SnowballKB.DegToRad));
+                livingEntity.takeKnockback(SnowballKB.config.pearlKbMultiplier, MathHelper.sin(yaw * SnowballKB.DegToRad), -MathHelper.cos(yaw * SnowballKB.DegToRad));
             }
             else {
-                entity.setVelocity(entity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.pearlKbMultiplier)));
-                entity.velocityModified = true;
+                livingEntity.setVelocity(livingEntity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.pearlKbMultiplier)));
+                livingEntity.velocityModified = true;
             }
 
-            original.call(entity, source, SnowballKB.config.pearlDamage);
+            original.call(livingEntity, source, SnowballKB.config.pearlDamage);
         }
+        else
+            original.call(entity, source, amount);
 
     }
 

@@ -20,6 +20,9 @@ public class Config{
     public float pearlKbMultiplier = 0.0f;
     public float pearlDamage = 0.001f;
     public boolean pearlTraditionalKb = true;
+    public boolean applyToPlayers = true;
+    public boolean applyToBlazes = false;
+    public boolean applyToOtherEntities = true;
 
     public float fishingRodPullMultiplier = 0.1f;
 
