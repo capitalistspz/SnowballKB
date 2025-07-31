@@ -22,7 +22,7 @@ public class Config{
     public boolean pearlTraditionalKb = true;
     public boolean applyToPlayers = true;
     public boolean applyToBlazes = false;
-    public boolean applyToOtherEntities = true;
+    public boolean applyToOtherEntities = false;
 
     public float fishingRodPullMultiplier = 0.1f;
 
