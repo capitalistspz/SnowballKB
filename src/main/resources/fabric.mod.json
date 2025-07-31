@@ -21,6 +21,6 @@
   "accessWidener" : "snowballkb.accesswidener",
   "depends": {
     "fabricloader": ">=0.15.11",
-    "minecraft": ">=1.21.2"
+    "minecraft": ">=1.21.5"
   }
 }
