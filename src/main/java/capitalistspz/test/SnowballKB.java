@@ -21,7 +21,7 @@ public class SnowballKB implements ModInitializer {
     public static boolean appliesToEntity(Entity entity) {
         if (entity instanceof LivingEntity livingEntity)
         {
-            if (livingEntity.isInvulnerable())
+            if (!livingEntity.canTakeDamage())
                 return false;
             if (livingEntity instanceof PlayerEntity)
             {
@@ -33,6 +33,6 @@ public class SnowballKB implements ModInitializer {
             }
             else return SnowballKB.config.applyToOtherEntities;
         }
-        return true;
+        return false;
     }
 }
