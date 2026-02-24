@@ -32,6 +32,6 @@ public abstract class FishingBobberMxn extends ProjectileEntity {
 
     @Inject(method="pullHookedEntity", at=@At("TAIL"))
     public void updateVelocity(CallbackInfo ci) {
-        this.hookedEntity.velocityModified = true;
+        this.hookedEntity.velocityDirty = true;
     }
 }
