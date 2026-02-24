@@ -33,7 +33,7 @@ public abstract class SnowballEntityMxn extends ThrownItemEntity {
             }
             else {
                 livingEntity.setVelocity(livingEntity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.snowKbMultiplier)));
-                livingEntity.velocityModified = true;
+                livingEntity.velocityDirty = true;
             }
 
             original.call(livingEntity, source, SnowballKB.config.snowDamage);

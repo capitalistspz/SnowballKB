@@ -34,7 +34,7 @@ public abstract class EggEntityMxn extends ThrownItemEntity {
             }
             else {
                 livingEntity.setVelocity(livingEntity.getVelocity().add(this.getVelocity().normalize().multiply(SnowballKB.config.eggKbMultiplier)));
-                livingEntity.velocityModified = true;
+                livingEntity.velocityDirty = true;
             }
 
             original.call(entity, source, SnowballKB.config.eggDamage);

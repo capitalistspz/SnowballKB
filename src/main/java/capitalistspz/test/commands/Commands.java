@@ -8,6 +8,9 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.command.DefaultPermissions;
+import net.minecraft.command.permission.Permission;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
@@ -24,7 +27,7 @@ public class Commands {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher){
         // Argbuilder init
         LiteralArgumentBuilder<ServerCommandSource> snowKbCommand = literal("snowkb")
-                .requires(executor -> executor.hasPermissionLevel(2));
+                .requires(executor -> executor.getPermissions().hasPermission(DefaultPermissions.GAMEMASTERS));
 
         snowKbCommand.then(literal("knockback")
                 .then(literal("set")
@@ -116,7 +119,7 @@ public class Commands {
         dispatcher.register(snowKbCommand);
 
         LiteralArgumentBuilder<ServerCommandSource> eggKbCommand = literal("eggkb")
-                .requires(executor -> executor.hasPermissionLevel(2));
+                .requires(executor -> executor.getPermissions().hasPermission(DefaultPermissions.GAMEMASTERS));
 
         eggKbCommand.then(literal("knockback")
                 .then(literal("set")
@@ -207,7 +210,7 @@ public class Commands {
         dispatcher.register(eggKbCommand);
 
         LiteralArgumentBuilder<ServerCommandSource> pearlKbCommand = literal("pearlkb")
-                .requires(executor -> executor.hasPermissionLevel(2));
+                .requires(executor -> executor.getPermissions().hasPermission(DefaultPermissions.GAMEMASTERS));
 
         pearlKbCommand.then(literal("knockback")
                         .then(literal("set")
@@ -299,7 +302,7 @@ public class Commands {
         dispatcher.register(pearlKbCommand);
 
 
-        LiteralArgumentBuilder<ServerCommandSource> bobber = literal("bobberpull").requires(executor -> executor.hasPermissionLevel(2));
+        LiteralArgumentBuilder<ServerCommandSource> bobber = literal("bobberpull").requires(executor -> executor.getPermissions().hasPermission(DefaultPermissions.GAMEMASTERS));
 
         bobber.then(literal("set").then(argument("value", FloatArgumentType.floatArg()).executes(cmd -> {
             SnowballKB.config.fishingRodPullMultiplier = FloatArgumentType.getFloat(cmd, "value");
