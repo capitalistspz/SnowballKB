@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "capitalistspz.snowballkb.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "CommandsMxn",
+    "FishingHookMxn",
+    "MinecraftServerMxn",
+    "SnowballMxn",
+    "ThrownEggMxn",
+    "ThrownEnderpearlMxn"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

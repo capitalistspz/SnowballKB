@@ -1,9 +1,9 @@
-package capitalistspz.test.mixin;
+package capitalistspz.snowballkb.mixin;
 
-import capitalistspz.test.commands.Commands;
+import capitalistspz.snowballkb.commands.SnowballKBCommands;
 import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,14 +12,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 // Register the command
-@Mixin(CommandManager.class)
-public abstract class CommandManagerMxn {
+@Mixin(Commands.class)
+public abstract class CommandsMxn {
     @Shadow
     @Final
-    private CommandDispatcher<ServerCommandSource> dispatcher;
+    private CommandDispatcher<CommandSourceStack> dispatcher;
     @Inject(method="<init>", at=@At("TAIL"))
     void registerCommands(CallbackInfo ci){
-        Commands.register(dispatcher);
+        SnowballKBCommands.register(dispatcher);
     }
 
 }

@@ -1,39 +1,37 @@
-package capitalistspz.test.config;
+package capitalistspz.snowballkb.config;
 
-import capitalistspz.test.SnowballKB;
+import capitalistspz.snowballkb.SnowballKB;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import org.apache.logging.log4j.Level;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Path;
 
 public class Config{
-    public float snowKbMultiplier = 0.0f;
-    public float snowDamage = 0.001f;
-    public boolean snowTraditionalKb = true;
-    public float eggKbMultiplier = 0.0f;
-    public float eggDamage = 0.001f;
-    public boolean eggTraditionalKb = true;
-    public float pearlKbMultiplier = 0.0f;
-    public float pearlDamage = 0.001f;
-    public boolean pearlTraditionalKb = true;
+    public static class ThrownItemConfig {
+        public boolean vanillaStyleKnockback;
+        public float knockbackMultiplier;
+        public float hitDamage;
+    }
+
+    public String version = "1.6";
+    public ThrownItemConfig snowball =  new ThrownItemConfig();
+    public ThrownItemConfig egg = new ThrownItemConfig();
+    public ThrownItemConfig enderpearl = new ThrownItemConfig();
     public boolean applyToPlayers = true;
     public boolean applyToBlazes = false;
     public boolean applyToOtherEntities = false;
 
     public float fishingRodPullMultiplier = 0.1f;
 
-    private static final File configFile = new File("config" + File.separator + "snowballkb.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().setStrictness(Strictness.LENIENT).create();
 
-    public static boolean save(Config config) {
+    public static boolean save(Config config, Path path) {
         try {
-            if (!configFile.getParentFile().exists())
-                configFile.getParentFile().mkdirs();
-            FileWriter fw = new FileWriter(configFile);
+            FileWriter fw = new FileWriter(path.toFile());
             fw.write(gson.toJson(config));
             fw.close();
             return true;
@@ -43,9 +41,9 @@ public class Config{
         }
 
     }
-    public static Config load() {
+    public static Config load(Path path) {
         try {
-            FileReader fr = new FileReader(configFile);
+            FileReader fr = new FileReader(path.toFile());
             Config config = gson.fromJson(fr, Config.class);
             fr.close();
 
