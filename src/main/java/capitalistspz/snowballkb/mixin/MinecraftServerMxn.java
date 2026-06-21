@@ -2,13 +2,11 @@ package capitalistspz.snowballkb.mixin;
 
 import capitalistspz.snowballkb.SnowballKB;
 import capitalistspz.snowballkb.config.Config;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.apache.logging.log4j.Level;
@@ -51,7 +49,7 @@ public abstract class MinecraftServerMxn {
             SnowballKB.affectedEntities = affected.get();
         } else {
             // This exists because the mod datapack isn't loaded without Fabric API
-            SnowballKB.affectedEntities = HolderSet.direct(entityTypeRegistry.wrapAsHolder(EntityType.PLAYER));
+            SnowballKB.affectedEntities = HolderSet.direct(entityTypeRegistry.wrapAsHolder(EntityTypes.PLAYER));
         }
     }
 }

@@ -50,7 +50,7 @@ public class SnowballKB implements ModInitializer {
             var livingEntity = (LivingEntity) targetEntity;
             if (config.vanillaStyleKnockback) {
                 var yaw = -self.getYRot();
-                livingEntity.knockback(config.knockbackMultiplier, Mth.sin(yaw * SnowballKB.DegToRad), -Mth.cos(yaw * SnowballKB.DegToRad));
+                livingEntity.knockback(config.knockbackMultiplier, Mth.sin(yaw * SnowballKB.DegToRad), -Mth.cos(yaw * SnowballKB.DegToRad), source, damage);
             } else {
                 livingEntity.push(self.getDeltaMovement().normalize().scale(config.knockbackMultiplier));
             }
