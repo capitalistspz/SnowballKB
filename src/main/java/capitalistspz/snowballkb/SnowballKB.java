@@ -55,7 +55,7 @@ public class SnowballKB implements ModInitializer {
                 livingEntity.push(self.getDeltaMovement().normalize().scale(config.knockbackMultiplier));
             }
             // This triggers a velocity update
-            livingEntity.hurtMarked = true;
+            livingEntity.syncVelocity = true;
 
             original.call(targetEntity, source, config.hitDamage);
         } else
